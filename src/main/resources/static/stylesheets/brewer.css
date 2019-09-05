@@ -97,6 +97,11 @@ TABELA
 ###################
 */
 
+/* Colunas comuns */
+.table-col-acoes {
+	width: 80px;
+}
+
 /* Colunas - Pesquisa de Cervejas */
 .table-cervejas-col-foto {
 	min-width: 50px;
@@ -128,3 +133,8 @@ TABELA
 .table-cervejas-col-acoes {
 	width: 80px;
 }
+/* Colunas - Pesquisa de Estilos */
+.table-estilos-col-codigo {
+	width: 80px;	
+}
+
