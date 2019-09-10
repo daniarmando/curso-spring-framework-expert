@@ -2,7 +2,8 @@
 <html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/LayoutPadrao">
+	xmlns:data="http://www.thymeleaf.org/extras/data"
+	layout:decorate="layout/LayoutPadrao">
 <head>
 	<title>Cadastro de cliente</title>
 </head>
@@ -38,27 +39,26 @@
 					<div class="col-sm-4  form-group  bw-required">						
 						<label class="control-label" for="origem">Tipo pessoa</label>
 						<div>
-							<div class="radio radio-inline">
-								<input type="radio" name="fisica">
-								<label>Física</label>
-							</div>
-							<div class="radio radio-inline">
-								<input type="radio" name="juridica">
-								<label>Jurídica</label>
-							</div>
+							<th:block th:each="tipoPessoa : ${tiposPessoa}">
+								<div class="radio radio-inline">
+									<input type="radio" th:id="|id_${tipoPessoa}" class="js-radio-tipo-pessoa" 
+										name="tipoPessoa" data:documento="${tipoPessoa.documento}" data:mascara="${tipoPessoa.mascara}">
+									<label class="control-label" for="|id_${tipoPessoa}" th:text="${tipoPessoa.descricao}">Física</label>
+								</div>
+							</th:block>						
 						</div>						
 					</div>	
 					
 					<div class="form-group col-sm-8  bw-required">
 						<label class="control-label" for="cpfOuCnpj">CPF/CNPJ</label>
-						<input type="text" class="form-control" id="cpfOuCnpj" />
+						<input type="text" class="form-control" id="cpfOuCnpj" disabled />
 					</div>
 				</div>	
 				
 				<div class="row">
 					<div class="form-group col-sm-4  bw-required">
 						<label class="control-label" for="telefone">Telefone</label>
-						<input type="text" class="form-control" id="telefone" />
+						<input type="text" class="form-control js-phone-number" id="telefone" />
 					</div>
 					
 					<div class="form-group col-sm-8  bw-required">
@@ -125,5 +125,8 @@
 		</div>				
 	</section>		
 
+<th:block layout:fragment="javascript-extra">
+	<script th:src="@{/javascripts/cliente.mascara-cpf-cnpj.js}"></script>
+</th:block>
 </body>
 </html>
