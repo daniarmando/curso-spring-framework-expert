@@ -112,9 +112,14 @@
 					
 					<div class="form-group col-sm-4  bw-required">						
 						<label class="control-label" for="cidade">Cidade</label>
-						<select class="form-control" id="cidade">
-							<option value="">Selecione a cidade</option>
-						</select>
+						<div class="bw-field-action">
+							<select class="form-control" id="cidade" data:url="@{/cidades}">								
+							</select>
+							
+							<div class="bw-field-action__icon  js-img-loading" style="display: none">
+								<img th:src="@{/images/mini-loading.gif}"/>
+							</div>
+						</div>
 					</div>								
 				</div>										
 				
@@ -128,6 +133,7 @@
 
 <th:block layout:fragment="javascript-extra">
 	<script th:src="@{/javascripts/cliente.mascara-cpf-cnpj.js}"></script>
+	<script th:src="@{/javascripts/cliente.combo-estado-cidade.js}"></script>
 </th:block>
 </body>
 </html>
