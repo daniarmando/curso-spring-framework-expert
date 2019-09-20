@@ -9,25 +9,44 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.group.GroupSequenceProvider;
+
+import com.algaworks.brewer.model.validation.ClienteGroupSequenceProvider;
+import com.algaworks.brewer.model.validation.group.CnpjGroup;
+import com.algaworks.brewer.model.validation.group.CpfGroup;
 
 @Entity
 @Table(name = "cliente")
+@GroupSequenceProvider(ClienteGroupSequenceProvider.class)
 public class Cliente {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
+	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
 	
+	@NotNull(message = "Tipo pessoa é obrigatório")
 	@Enumerated(EnumType.STRING)
-	@Column(name = "tipo_pessoa")
+	@Column(name = "tipo_pessoa")	
 	private TipoPessoa tipoPessoa;
 	
+	@NotBlank(message = "CPF/CNPJ é obrigatório")
+	@CPF(groups = CpfGroup.class)
+	@CNPJ(groups = CnpjGroup.class)
 	@Column(name = "cpf_cnpj")	
 	private String cpfOuCnpj;
 	
 	private String telefone;
+	
+	@Email(message = "E-mail inválido")
 	private String email;
 	
 	@Embedded

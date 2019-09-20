@@ -9,7 +9,6 @@ import org.springframework.data.web.PageableDefault;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,9 +55,8 @@ public class CervejasController {
 	}
 	
 	@RequestMapping(value = "/novo", method = RequestMethod.POST)
-	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, Model model, RedirectAttributes attributes) {
-		if (result.hasErrors()) {		
-			model.addAttribute(cerveja);
+	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attributes) {
+		if (result.hasErrors()) {					
 			return novo(cerveja);
 		}			
 				
