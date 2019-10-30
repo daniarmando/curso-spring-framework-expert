@@ -10,9 +10,9 @@ public class EstadoConverter implements Converter<String, Estado> {
 	@Override
 	public Estado convert(String codigo) {
 		if (!StringUtils.isEmpty(codigo)) {
-			Estado Estado = new Estado();
-			Estado.setCodigo(Long.valueOf(codigo));
-			return Estado;
+			Estado estado = new Estado();
+			estado.setCodigo(Long.valueOf(codigo));
+			return estado;
 		}
 		
 		return null;
