@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -23,7 +24,8 @@ public class Grupo implements Serializable {
 	
 	private String nome;
 	
-	@JoinTable(name = "grupo_permissao", joinColumns = @JoinColumn(referencedColumnName = "codigo_grupo")
+	@ManyToMany
+	@JoinTable(name = "grupo_permissao", joinColumns = @JoinColumn(name = "codigo_grupo")
 	, inverseJoinColumns = @JoinColumn(name = "codigo_permissao"))
 	private List<Permissao> permissoes;
 

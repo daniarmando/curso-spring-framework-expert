@@ -41,17 +41,10 @@ public class Usuario implements Serializable {
 	
 	@NotNull(message = "Selecione pelo menos um grupo")
 	@ManyToMany
-	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(referencedColumnName = "codigo_usuario")
+	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario")
 	, inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
-	private List<Grupo> grupos;
+	private List<Grupo> grupos;	
 	
-	public List<Grupo> getGrupos() {
-		return grupos;
-	}
-	public void setGrupos(List<Grupo> grupos) {
-		this.grupos = grupos;
-	}
-	@NotNull(message = "Data de nascimento é obrigatório")
 	@Column(name = "data_nascimento")
 	private LocalDate dataNascimento;
 	
@@ -84,6 +77,12 @@ public class Usuario implements Serializable {
 	}
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
+	}
+	public List<Grupo> getGrupos() {
+		return grupos;
+	}
+	public void setGrupos(List<Grupo> grupos) {
+		this.grupos = grupos;
 	}
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
