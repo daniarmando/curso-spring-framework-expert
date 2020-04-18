@@ -21,8 +21,7 @@ public class AtributoConfirmacaoValidator implements ConstraintValidator<Atribut
 
 	@Override
 	public boolean isValid(Object object, ConstraintValidatorContext context) {
-		boolean valido = false;
-				
+		boolean valido = false;				
 		
 		try {
 			Object valorAtributo = BeanUtils.getProperty(object, this.atributo);
