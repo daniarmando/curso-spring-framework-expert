@@ -8,9 +8,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.algaworks.brewer.model.Usuario;
+import com.algaworks.brewer.repository.Grupos;
 import com.algaworks.brewer.service.CadastroUsuarioService;
 import com.algaworks.brewer.service.exception.EmailJaCadastradoException;
 
@@ -21,13 +23,18 @@ public class UsuariosController {
 	@Autowired
 	private CadastroUsuarioService cadastroUsuarioService;
 	
+	@Autowired
+	private Grupos grupos;
+	
 	@GetMapping("/novo")
-	public String novo(Usuario usuario) {
-		return "usuario/CadastroUsuario";
+	public ModelAndView novo(Usuario usuario) {
+		ModelAndView mv = new ModelAndView("usuario/CadastroUsuario");
+		mv.addObject("grupos", grupos.findAll());
+		return mv;
 	}
 	
 	@PostMapping("/novo")
-	public String salvar(@Valid Usuario usuario, BindingResult result, RedirectAttributes attributes) {
+	public ModelAndView salvar(@Valid Usuario usuario, BindingResult result, RedirectAttributes attributes) {
 		if (result.hasErrors()) {			
 			return novo(usuario);
 		}
@@ -40,6 +47,6 @@ public class UsuariosController {
 		}
 				
 		attributes.addFlashAttribute("mensagem", "Usuário cadastrado com sucesso");
-		return "redirect:/usuarios/novo";
+		return new ModelAndView("redirect:/usuarios/novo");
 	}			
 }
