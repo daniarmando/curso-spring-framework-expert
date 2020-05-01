@@ -26,6 +26,8 @@
 </head>
 
 <body>
+<input type="hidden" name="__csrf" th:value="${_csrf.token}" />
+<input type="hidden" name="_csrf_header" th:value="${_csrf.headerName}" />
 
 	<div class="aw-layout-page">
 		
