@@ -29,7 +29,7 @@ public class MenuAttributeTagProcessor extends AbstractAttributeTagProcessor {
 		
 		IEngineConfiguration configuration = context.getConfiguration();
 		IStandardExpressionParser parser = StandardExpressions.getExpressionParser(configuration);
-		IStandardExpression expression = parser.parseExpression(context,  attributeValue);
+		IStandardExpression expression = parser.parseExpression(context, attributeValue);
 		String menu = (String) expression.execute(context);		
 		
 		HttpServletRequest request = ((IWebContext) context).getRequest();
