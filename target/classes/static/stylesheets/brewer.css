@@ -173,6 +173,11 @@ TABELA
 	text-align: right;
 }
 
+/* Colunas - Pesquisa de usuários */
+.table-usuarios-col-status {
+	width: 30px;
+}
+
 /*
 
 ###########################
@@ -184,5 +189,6 @@ CUSTOMIZAÇÃO DE COMPONENTES
 	font-family: 'FontAwesome';
 	content: "\f00c";
 }
+
 
 

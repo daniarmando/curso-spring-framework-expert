@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
+		http		
 			.authorizeRequests()	
 				.antMatchers("/cidades/nova").hasRole("CADASTRAR_CIDADE")
 				.antMatchers("/usuarios/**").hasRole("CADASTRAR_USUARIO")
@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().accessDeniedPage("/403")
 				.and()
 			.sessionManagement()
-				.invalidSessionUrl("/login");
+				.invalidSessionUrl("/login");			
 				//.and()
 			//.sessionManagement()
 				//.maximumSessions(1)
