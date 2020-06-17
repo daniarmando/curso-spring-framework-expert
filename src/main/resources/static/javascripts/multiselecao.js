@@ -32,10 +32,7 @@ Brewer.Multiselecao = (function() {
 		var checkboxSelecionados = this.selecaoCheckbox.filter(':checked');
 		var codigos = $.map(checkboxSelecionados, function(c) {
 			return $(c).data('codigo');
-		});
-		
-		var token = $('input[name=__csrf]').attr('value');
-		var header = $('input[name=_csrf_header]').attr('value') ;
+		});			
 		
 		if (codigos.length > 0) {
 			$.ajax({
