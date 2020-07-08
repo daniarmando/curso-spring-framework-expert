@@ -1,5 +1,4 @@
-Brewer =
-	Brewer || {};
+Brewer = Brewer || {};
 
 Brewer.Autocomplete = (function() {
 	
