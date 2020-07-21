@@ -42,7 +42,7 @@ Brewer.Autocomplete = (function() {
 	function template(nome, cerveja) {		
 		cerveja.valorFormatado = Brewer.formatarMoeda(cerveja.valor);
 		return this.template(cerveja);		
-	}
+	}	
 	
 	return Autocomplete;
 	
