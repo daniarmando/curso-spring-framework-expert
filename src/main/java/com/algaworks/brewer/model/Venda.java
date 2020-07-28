@@ -1,9 +1,12 @@
 package com.algaworks.brewer.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "venda")
@@ -22,7 +26,7 @@ public class Venda {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long codigo;
 	
 	@Column(name = "data_criacao")
 	private LocalDateTime dataCriacao;
@@ -38,11 +42,11 @@ public class Venda {
 	
 	private String observacao;
 	
-	@Column(name = "data_entrega")
-	private LocalDateTime dataEntrega;
+	@Column(name = "data_hora_entrega")
+	private LocalDateTime dataHoraEntrega;
 	
 	@ManyToOne
-	@JoinColumn(name = "cogigo_cliente")
+	@JoinColumn(name = "codigo_cliente")
 	private Cliente cliente;
 	
 	@ManyToOne
@@ -50,17 +54,26 @@ public class Venda {
 	private Usuario usuario;
 	
 	@Enumerated(EnumType.STRING)
-	private StatusVenda status;
+	private StatusVenda status = StatusVenda.ORCAMENTO;
 	
-	@OneToMany(mappedBy = "venda")
+	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
 	private List<ItemVenda> itens;
+	
+	@Transient
+	private String uuid;
+	
+	@Transient
+	private LocalDate dataEntrega;
+	
+	@Transient
+	private LocalTime horarioEntrega;
 
-	public Long getId() {
-		return id;
+	public Long getCodigo() {
+		return codigo;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
 	public LocalDateTime getDataCriacao() {
@@ -103,12 +116,12 @@ public class Venda {
 		this.observacao = observacao;
 	}
 
-	public LocalDateTime getDataEntrega() {
-		return dataEntrega;
+	public LocalDateTime getDataHoraEntrega() {
+		return dataHoraEntrega;
 	}
 
-	public void setDataEntrega(LocalDateTime dataEntrega) {
-		this.dataEntrega = dataEntrega;
+	public void setDataHoraEntrega(LocalDateTime dataHoraEntrega) {
+		this.dataHoraEntrega = dataHoraEntrega;
 	}
 
 	public Cliente getCliente() {
@@ -143,12 +156,45 @@ public class Venda {
 		this.itens = itens;
 	}
 
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
 		return result;
+	}
+		
+	public LocalDate getDataEntrega() {
+		return dataEntrega;
+	}
+
+	public void setDataEntrega(LocalDate dataEntrega) {
+		this.dataEntrega = dataEntrega;
+	}
+
+	public LocalTime getHorarioEntrega() {
+		return horarioEntrega;
+	}
+
+	public void setHorarioEntrega(LocalTime horarioEntrega) {
+		this.horarioEntrega = horarioEntrega;
+	}
+	
+	public boolean isNova() {
+		return codigo == null;
+	}
+	
+	public void adicionarItens(List<ItemVenda> itens) {
+		this.itens = itens;
+		this.itens.forEach(i -> i.setVenda(this));		
 	}
 
 	@Override
@@ -160,12 +206,12 @@ public class Venda {
 		if (getClass() != obj.getClass())
 			return false;
 		Venda other = (Venda) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (codigo == null) {
+			if (other.codigo!= null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!codigo.equals(other.codigo))
 			return false;
 		return true;
-	}	
+	}		
 
 }
