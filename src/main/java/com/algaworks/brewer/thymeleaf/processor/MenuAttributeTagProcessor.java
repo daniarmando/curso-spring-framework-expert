@@ -15,14 +15,14 @@ import org.thymeleaf.standard.expression.StandardExpressions;
 import org.thymeleaf.templatemode.TemplateMode;
 
 public class MenuAttributeTagProcessor extends AbstractAttributeTagProcessor {
-	
+
 	private static final String NOME_ATRIBUTO = "menu";
 	private static final int PRECEDENCIA = 1000;
 	
 	public MenuAttributeTagProcessor(String dialectPrefix) {
 		super(TemplateMode.HTML, dialectPrefix, null, false, NOME_ATRIBUTO, true, PRECEDENCIA, true);
 	}
-
+	
 	@Override
 	protected void doProcess(ITemplateContext context, IProcessableElementTag tag, AttributeName attributeName,
 			String attributeValue, IElementTagStructureHandler structureHandler) {
@@ -30,15 +30,15 @@ public class MenuAttributeTagProcessor extends AbstractAttributeTagProcessor {
 		IEngineConfiguration configuration = context.getConfiguration();
 		IStandardExpressionParser parser = StandardExpressions.getExpressionParser(configuration);
 		IStandardExpression expression = parser.parseExpression(context, attributeValue);
-		String menu = (String) expression.execute(context);		
+		String menu = (String) expression.execute(context);
 		
 		HttpServletRequest request = ((IWebContext) context).getRequest();
 		String uri = request.getRequestURI();
 		
-		if (uri.startsWith(menu)) {
+		if (uri.matches(menu)) {
 			String classesExistentes = tag.getAttributeValue("class");
 			structureHandler.setAttribute("class", classesExistentes + " is-active");
-		}							
+		}
 	}
 
 }
