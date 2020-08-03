@@ -26,7 +26,7 @@ public class MailConfig {
 	public JavaMailSender mailSender() {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setHost("smtp.sendgrid.net");
-		mailSender.setPort(587);
+		mailSender.setPort(587);		
 		//mailSender.setUsername("daniel.armandobr@gmail.com");
 		mailSender.setUsername(env.getProperty("mail.username"));
 		mailSender.setPassword(env.getProperty("mail.password"));			
@@ -37,6 +37,7 @@ public class MailConfig {
 		props.put("mail.smtp.starttls.enable", true);
 		props.put("mail.debug", false);
 		props.put("mail.smtp.connectiontimeout", 10000); //milisegundos
+		props.put("mail.smtp.ssl.trust", "smtp.sendgrid.net");
 		
 		mailSender.setJavaMailProperties(props);
 		
