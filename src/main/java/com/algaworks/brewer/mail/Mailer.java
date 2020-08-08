@@ -18,8 +18,7 @@ public class Mailer {
 	public void enviar(Venda venda) {
 		SimpleMailMessage message = new SimpleMailMessage();
 		message.setFrom("daniel.armando@live.com");
-		message.setTo("daniel.armandobr@gmail.com");
-		//message.setTo(venda.getCliente().getEmail());
+		message.setTo(venda.getCliente().getEmail());
 		message.setSubject("Venda Efetuada");
 		message.setText("Obrigado, sua venda foi processada");
 		
