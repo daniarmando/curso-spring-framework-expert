@@ -74,7 +74,7 @@ Brewer.MaskDate = (function() {
 
 Brewer.Security = (function() {
 	function Security() {
-		this.token = $('input[name=_csrf]').val();
+		this.token = $('input[name=__csrf]').val();
 		this.header = $('input[name=_csrf_header]').val();
 	}
 	
