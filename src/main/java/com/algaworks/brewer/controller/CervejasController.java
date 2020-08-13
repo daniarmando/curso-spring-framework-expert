@@ -49,8 +49,8 @@ public class CervejasController {
 	
 	//private static final Logger logger = LoggerFactory.getLogger(CervejasController.class);
 
-	@RequestMapping("/novo")
-	public ModelAndView novo(Cerveja cerveja) {		
+	@RequestMapping("/nova")
+	public ModelAndView nova(Cerveja cerveja) {		
 		//if (logger.isDebugEnabled()) {
 			//logger.debug("O objeto cerveja é:" + cerveja.toString());			
 	//	}			
@@ -63,15 +63,15 @@ public class CervejasController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "/novo", method = RequestMethod.POST)
-	public ModelAndView cadastrar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attributes) {
+	@RequestMapping(value = { "/nova", "{\\d+}" }, method = RequestMethod.POST)	
+	public ModelAndView salvar(@Valid Cerveja cerveja, BindingResult result, RedirectAttributes attributes) {
 		if (result.hasErrors()) {					
-			return novo(cerveja);
+			return nova(cerveja);
 		}			
 				
 		cadastroCervejaService.salvar(cerveja);
 		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso");
-		return new ModelAndView("redirect:/cervejas/novo");
+		return new ModelAndView("redirect:/cervejas/nova");
 	}	
 	
 	@GetMapping
@@ -102,5 +102,12 @@ public class CervejasController {
 		}
 		
 		return ResponseEntity.ok().build();
+	}
+	
+	@GetMapping("/{codigo}") 
+	public ModelAndView editar(@PathVariable("codigo") Cerveja cerveja) {
+		ModelAndView mv = nova(cerveja);
+		mv.addObject(cerveja);
+		return mv;
 	}
 }
