@@ -47,7 +47,7 @@ public class Usuario implements Serializable {
 	@Transient
 	private String confirmacaoSenha;
 		
-	private Boolean ativo;
+	private Boolean ativo;		
 	
 	@Size(min = 1, message = "Selecione pelo menos um grupo")
 	@ManyToMany
