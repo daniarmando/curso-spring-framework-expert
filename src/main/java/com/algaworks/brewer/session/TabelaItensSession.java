@@ -17,7 +17,7 @@ public class TabelaItensSession {
 	
 	private Set<TabelaItensVenda> tabelas = new HashSet<>();
 
-	public void adicionarItemCerveja(String uuid, Cerveja cerveja, int quantidade) {
+	public void adicionarItem(String uuid, Cerveja cerveja, int quantidade) {
 		TabelaItensVenda tabela = buscarTabelaPorId(uuid);
 		tabela.adicionarItemCerveja(cerveja, quantidade);		
 		tabelas.add(tabela);
