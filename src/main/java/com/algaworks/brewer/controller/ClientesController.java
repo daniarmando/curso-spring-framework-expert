@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +30,8 @@ import com.algaworks.brewer.repository.Clientes;
 import com.algaworks.brewer.repository.Estados;
 import com.algaworks.brewer.repository.filter.ClienteFilter;
 import com.algaworks.brewer.service.CadastroClienteService;
-import com.algaworks.brewer.service.exception.CpfCnpjJaCadastradoException;
+import com.algaworks.brewer.service.exception.CpfCnpjClienteJaCadastradoException;
+import com.algaworks.brewer.service.exception.ImpossivelExcluirEntidadeException;
 
 @Controller
 @RequestMapping("/clientes")
@@ -51,7 +54,7 @@ public class ClientesController {
 		return mv;
 	}
 	
-	@PostMapping("/novo")
+	@PostMapping({"/novo", "{\\d+}"})
 	public ModelAndView salvar(@Valid Cliente cliente, BindingResult result, RedirectAttributes attributes) {
 		if (result.hasErrors()) {			
 			return novo(cliente);
@@ -59,7 +62,7 @@ public class ClientesController {
 		
 		try {
 			cadastroClienteService.salvar(cliente);
-		} catch(CpfCnpjJaCadastradoException e) {
+		} catch(CpfCnpjClienteJaCadastradoException e) {
 			result.rejectValue("cpfOuCnpj", e.getMessage(), e.getMessage());
 			return novo(cliente);
 		}
@@ -96,6 +99,24 @@ public class ClientesController {
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<Void> tratarIllegalArgumentException(IllegalArgumentException e) {
 		return ResponseEntity.badRequest().build();
+	}
+	
+	@GetMapping("/{codigo}")
+	public ModelAndView editar(@PathVariable("codigo") Cliente cliente) {
+		ModelAndView mv = this.novo(cliente);
+		this.cadastroClienteService.comporDadosEndereco(cliente);
+		mv.addObject(cliente);
+		return mv;
+	}
+	
+	@DeleteMapping("/{codigo}")
+	public ResponseEntity<?> excluir(@PathVariable("codigo") Cliente cliente) {
+		try {
+			this.cadastroClienteService.excluir(cliente);
+		} catch (ImpossivelExcluirEntidadeException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+		return ResponseEntity.ok().build();
 	}
 	
 }

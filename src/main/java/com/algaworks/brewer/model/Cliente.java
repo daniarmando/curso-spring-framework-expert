@@ -123,8 +123,12 @@ public class Cliente {
 		this.endereco = endereco;
 	}
 	
-	public String getCpfOuCnpjSemFormatacao(String cpfOuCnpj) {
+	public String getCpfOuCnpjSemFormatacao() {
 		return TipoPessoa.removerFormatacao(this.cpfOuCnpj);
+	}
+
+	public boolean isNovo() {
+		return this.codigo == null;
 	}
 
 	@Override

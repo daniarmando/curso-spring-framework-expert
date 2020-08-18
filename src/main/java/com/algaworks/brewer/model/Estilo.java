@@ -53,6 +53,10 @@ public class Estilo implements Serializable {
 	public List<Cerveja> getCervejas() {
 		return this.cervejas;
 	}
+	
+	public boolean isNovo() {
+		return this.codigo == null;
+	}
 
 	@Override
 	public int hashCode() {

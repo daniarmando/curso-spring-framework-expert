@@ -1,5 +1,7 @@
 package com.algaworks.brewer.service;
 
+import javax.persistence.PersistenceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -8,7 +10,8 @@ import org.springframework.util.StringUtils;
 
 import com.algaworks.brewer.model.Usuario;
 import com.algaworks.brewer.repository.Usuarios;
-import com.algaworks.brewer.service.exception.EmailJaCadastradoException;
+import com.algaworks.brewer.service.exception.EmailUsuarioJaCadastradoException;
+import com.algaworks.brewer.service.exception.ImpossivelExcluirEntidadeException;
 import com.algaworks.brewer.service.exception.SenhaObrigatoriaUsuarioException;
 import com.google.common.base.Optional;
 
@@ -24,10 +27,8 @@ public class CadastroUsuarioService {
 	@Transactional
 	public void salvar(Usuario usuario) {
 		Optional<Usuario> usuarioExistente = usuarios.findByEmail(usuario.getEmail());
-		
-		if (usuarioExistente.isPresent() && 
-				!usuarioExistente.get().equals(usuario)) {
-			throw new EmailJaCadastradoException("E-mail já cadastrado");
+		if (usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
+			throw new EmailUsuarioJaCadastradoException("E-mail já cadastrado");
 		}
 		
 		if (usuario.isNovo() && StringUtils.isEmpty(usuario.getSenha())) {
@@ -35,22 +36,32 @@ public class CadastroUsuarioService {
 		}
 		
 		if (usuario.isNovo() || !StringUtils.isEmpty(usuario.getSenha())) {
-			usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));			
+			usuario.setSenha(this.passwordEncoder.encode(usuario.getSenha()));
 		} else if (StringUtils.isEmpty(usuario.getSenha())) {
 			usuario.setSenha(usuarioExistente.get().getSenha());
-		}		
+		}
 		usuario.setConfirmacaoSenha(usuario.getSenha());
 		
 		if (!usuario.isNovo() && usuario.getAtivo() == null) {
 			usuario.setAtivo(usuarioExistente.get().getAtivo());
 		}
 		
-		usuarios.save(usuario);		
+		usuarios.save(usuario);
 	}
 
 	@Transactional
 	public void alterarStatus(Long[] codigos, StatusUsuario statusUsuario) {
-		statusUsuario.executar(codigos, usuarios);		
+		statusUsuario.executar(codigos, usuarios);
+	}
+
+	@Transactional
+	public void excluir(Usuario usuario) {
+		try {
+			this.usuarios.delete(usuario);
+			this.usuarios.flush();
+		} catch (PersistenceException e) {
+			throw new ImpossivelExcluirEntidadeException("Impossível apagar usuário.");
+		}
 	}
 
 }
