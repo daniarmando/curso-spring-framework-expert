@@ -1,3 +1,4 @@
+
 package com.algaworks.brewer.model;
 
 import java.math.BigDecimal;
@@ -35,13 +36,13 @@ public class Cerveja {
 	private Long codigo;
 
 	@SKU
-	@NotBlank(message = "SKU é obrigatório")
+	@NotBlank
 	private String sku;
 	
-	@NotBlank(message = "Nome é obrigatório")
+	@NotBlank
 	private String nome;
 	
-	@NotBlank(message = "Descrição é obrigatório")
+	@NotBlank
 	@Size(min = 3, max = 50, message = "Descrição deve ter entre {min} e {max} caracteres")
 	private String descricao;
 	
