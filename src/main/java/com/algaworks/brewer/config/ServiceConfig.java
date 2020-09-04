@@ -1,19 +1,13 @@
 package com.algaworks.brewer.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.algaworks.brewer.service.CadastroCervejaService;
-import com.algaworks.brewer.storage.local.FotoStorageLocal;
+import com.algaworks.brewer.storage.FotoStorage;
 
 @Configuration
-@ComponentScan(basePackageClasses = CadastroCervejaService.class)
+@ComponentScan(basePackageClasses = { CadastroCervejaService.class, FotoStorage.class })
 public class ServiceConfig {
-	
-	@Bean
-	public FotoStorageLocal fotoStorageLocal() {
-		return new FotoStorageLocal();
-	}
 
 }
