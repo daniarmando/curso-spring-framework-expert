@@ -56,9 +56,7 @@ public class Mailer {
 			} else {
 				adicionarMockCerveja = true;
 				context.setVariable("mockCerveja", "mockCerveja");				
-			}
-			
-						
+			}								
 		}
 		
 		String email = thymeleaf.process("mail/ResumoVenda", context);
